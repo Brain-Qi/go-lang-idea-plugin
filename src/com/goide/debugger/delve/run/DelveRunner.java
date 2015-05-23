@@ -78,6 +78,8 @@ public class DelveRunner extends DefaultProgramRunner {
       return null;
     }
 
+    // TODO figure out why this will generate a failed assertion error
+    //debugSession.initBreakpoints();
     return debugSession.getRunContentDescriptor();
   }
 }
