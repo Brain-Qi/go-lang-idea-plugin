@@ -79,7 +79,7 @@ public class GdbRunner extends DefaultProgramRunner {
       }
     });
 
-    
+
     String sdkHomePath = GoSdkService.getInstance(project).getSdkHomePath(null);
     if (StringUtil.isEmpty(sdkHomePath)) {
       debugSession.stop();

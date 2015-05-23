@@ -17,7 +17,6 @@
 package com.goide.debugger.delve.run;
 
 import com.goide.debugger.delve.debug.DelveDebugProcess;
-import com.goide.debugger.delve.dlv.Delve;
 import com.goide.sdk.GoSdkService;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
@@ -30,7 +29,6 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.xdebugger.XDebugProcess;
 import com.intellij.xdebugger.XDebugProcessStarter;
@@ -55,19 +53,16 @@ public class DelveRunner extends DefaultProgramRunner {
   @Override
   protected RunContentDescriptor doExecute(@NotNull RunProfileState state, @NotNull ExecutionEnvironment env) throws ExecutionException {
     FileDocumentManager.getInstance().saveAllDocuments();
-    return createContentDescriptor(env.getProject(), env.getExecutor(), state, env.getContentToReuse(), env);
+    return createContentDescriptor(env.getProject(), env.getExecutor(), state, env);
   }
 
   @Nullable
   protected RunContentDescriptor createContentDescriptor(@NotNull Project project,
                                                          final Executor executor,
                                                          @NotNull final RunProfileState state,
-                                                         RunContentDescriptor contentToReuse,
                                                          @NotNull ExecutionEnvironment env)
     throws ExecutionException {
-    final ExecutionResult result = state.execute(executor, this);
-    final XDebugSession debugSession = XDebuggerManager.getInstance(project).startSession(this,
-                                                                                          env, contentToReuse, new XDebugProcessStarter() {
+    final XDebugSession debugSession = XDebuggerManager.getInstance(project).startSession(env, new XDebugProcessStarter() {
         @NotNull
         @Override
         public XDebugProcess start(@NotNull XDebugSession session) throws ExecutionException {
@@ -83,12 +78,6 @@ public class DelveRunner extends DefaultProgramRunner {
       return null;
     }
 
-    DelveDebugProcess debugProcess = ((DelveDebugProcess)debugSession.getDebugProcess());
-
-    Delve delve = debugProcess.getDelve();
-    delve.sendCommand("file " + ((DelveExecutionResult)result).getConfiguration().APP_PATH);
-    debugSession.initBreakpoints();
-    delve.sendCommand("run > /dev/null"); // todo: collect all output to file and show in the console
     return debugSession.getRunContentDescriptor();
   }
 }

@@ -20,6 +20,7 @@ import com.goide.debugger.delve.dlv.Delve;
 import com.goide.debugger.delve.run.DelveExecutionResult;
 import com.goide.debugger.delve.run.DelveRunConfiguration;
 import com.intellij.execution.ui.ConsoleView;
+import com.intellij.execution.ui.ExecutionConsole;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.xdebugger.XDebugProcess;
 import com.intellij.xdebugger.XDebugSession;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 public class DelveDebugProcess extends XDebugProcess {
   private static final Logger LOG = Logger.getInstance(DelveDebugProcess.class);
 
+  private final DelveDebuggerEditorsProvider myEditorsProvider = new DelveDebuggerEditorsProvider();
   @NotNull private final ConsoleView myConsole;
   private final DelveRunConfiguration myConfiguration;
 
@@ -45,13 +47,12 @@ public class DelveDebugProcess extends XDebugProcess {
     myConsole = (ConsoleView)executionResult.getExecutionConsole();
 
     myDelve = new Delve();
-
   }
 
   @NotNull
   @Override
   public XDebuggerEditorsProvider getEditorsProvider() {
-    return null;
+    return myEditorsProvider;
   }
 
   @Override
@@ -77,6 +78,12 @@ public class DelveDebugProcess extends XDebugProcess {
   @Override
   public void runToPosition(@NotNull XSourcePosition position) {
     LOG.warn("runToPosition: stub");
+  }
+
+  @NotNull
+  @Override
+  public ExecutionConsole createConsole() {
+    return myConsole;
   }
 
   @NotNull

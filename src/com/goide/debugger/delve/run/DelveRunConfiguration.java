@@ -38,7 +38,7 @@ public class DelveRunConfiguration extends ModuleBasedConfiguration<RunConfigura
   implements RunConfigurationWithSuppressedDefaultRunAction, RunConfigurationWithSuppressedDefaultDebugAction {
   private static final Logger LOG = Logger.getInstance(DelveRunConfiguration.class);
 
-  public String DELVE_PATH = "delve";
+  public String DELVE_PATH = "dlv";
   public String APP_PATH = "";
   public String STARTUP_COMMANDS = "";
 
