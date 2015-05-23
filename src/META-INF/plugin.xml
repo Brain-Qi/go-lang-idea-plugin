@@ -73,11 +73,8 @@
     <projectConfigurable groupId="language" provider="com.goide.configuration.GoConfigurableProvider" dynamic="true"
                          bundle="do.not.touch.this.attribute" />
 
-<<<<<<< HEAD
     <projectService serviceImplementation="com.goide.project.GoBuildTargetSettings"/>
-    
-=======
->>>>>>> Initial commit for delve support. Contains all the stubbed code from GDB implementation
+
     <defaultLiveTemplatesProvider implementation="com.goide.template.GoLiveTemplatesProvider"/>
     <liveTemplateContext implementation="com.goide.template.GoEverywhereContextType"/>
     <liveTemplateContext implementation="com.goide.template.GoLiveTemplateContextType$GoFileContextType"/>
